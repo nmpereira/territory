@@ -6,6 +6,12 @@ import generateTerritoryColors from "./TerritoryColors";
 interface TerritoryComponentProps extends TerritoryProps {
   territoryScores: TerritoryProps[];
   setTerritoryScores: (territoryScores: TerritoryProps[]) => void;
+  isDragging: boolean;
+  setIsDragging: (isDragging: boolean) => void;
+  from: { x: number; y: number };
+  setFrom: (from: { x: number; y: number }) => void;
+  to: { x: number; y: number };
+  setTo: (to: { x: number; y: number }) => void;
 }
 
 const Territory = ({
@@ -14,16 +20,22 @@ const Territory = ({
 
   territoryScores,
   setTerritoryScores,
+
+  setIsDragging,
+
+  setFrom,
+
+  setTo,
 }: TerritoryComponentProps) => {
   const hangdleOnDrop = (e: React.DragEvent) => {
     const spriteName = e.dataTransfer.getData("text/plain") as string;
     console.log({ spriteName, target: name });
 
     const newTerritoryScores = territoryScores.map((territory) => {
-      const targetTerritory = territoryScores.find((t) => t.name === name);
-      const sourceTerritory = territoryScores.find(
-        (t) => t.name === spriteName
-      );
+      // const targetTerritory = territoryScores.find((t) => t.name === name);
+      // const sourceTerritory = territoryScores.find(
+      //   (t) => t.name === spriteName
+      // );
 
       // transfer half of the score to the target territory
       if (territory.name === name) {
@@ -53,6 +65,8 @@ const Territory = ({
     }
 
     setTerritoryScores(newTerritoryScores);
+
+    // setIsDragging(false);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -61,11 +75,19 @@ const Territory = ({
 
   const handleDragStart = (e: React.DragEvent, name: string) => {
     e.dataTransfer.setData("text/plain", name);
+
+    setFrom({ x: e.clientX, y: e.clientY });
   };
 
-  //   const handleDragEnd = (e: React.DragEvent) => {
-  //     console.log("drag end");
-  //   };
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const ondragHandler = (e: React.DragEvent) => {
+    // console.log("dragging", e.clientX, e.clientY);
+    setIsDragging(true);
+    setTo({ x: e.clientX, y: e.clientY });
+  };
 
   return (
     <>
@@ -78,7 +100,8 @@ const Territory = ({
           onDragStart={(e) => handleDragStart(e, name)}
           onDrop={hangdleOnDrop}
           onDragOver={handleDragOver}
-          //   onDragEnd={handleDragEnd}
+          onDragEnd={handleDragEnd}
+          onDrag={ondragHandler}
         />
 
         <p>{score}</p>

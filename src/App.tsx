@@ -5,6 +5,7 @@ import {
   StyledTerritoryArea,
 } from "./components/Territory.styled";
 import { TerritoryProps } from "./types/Territory";
+import Arrow from "./components/Arrow";
 
 function App() {
   const [territoryScores, setTerritoryScores] = useState<TerritoryProps[]>([
@@ -13,6 +14,9 @@ function App() {
     { score: 0, name: "C" },
     { score: 0, name: "D" },
   ]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [from, setFrom] = useState({ x: 0, y: 0 });
+  const [to, setTo] = useState({ x: 0, y: 0 });
 
   // add a score every second
   useEffect(() => {
@@ -39,31 +43,23 @@ function App() {
               name={territory.name}
               territoryScores={territoryScores}
               setTerritoryScores={setTerritoryScores}
+              isDragging={isDragging}
+              setIsDragging={setIsDragging}
+              from={from}
+              setFrom={setFrom}
+              to={to}
+              setTo={setTo}
             />
           ))}
-          <Arrow />
+          <Arrow
+            from={{ x: from.x, y: from.y }}
+            to={{ x: to.x, y: to.y }}
+            isDragging={isDragging}
+          />
         </StyledTerritoryArea>
       </StyledGameArea>
     </>
   );
 }
-
-const Arrow = (from: string, to: string) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      className="bi bi-arrow-up"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fillRule="evenodd"
-        d="M8 1.5a.5.5 0 0 1 .5.5v11.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 13.293V2a.5.5 0 0 1 .5-.5z"
-      />
-    </svg>
-  );
-};
 
 export default App;
