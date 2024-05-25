@@ -7,7 +7,6 @@ const Arrow = ({
   to: { x: number; y: number };
   isDragging: boolean;
 }) => {
-  //   console.log(isDragging, from, to);
   return (
     isDragging && (
       <svg

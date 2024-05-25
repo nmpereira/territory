@@ -29,7 +29,6 @@ const Territory = ({
 }: TerritoryComponentProps) => {
   const hangdleOnDrop = (e: React.DragEvent) => {
     const spriteName = e.dataTransfer.getData("text/plain") as string;
-    console.log({ spriteName, target: name });
 
     const newTerritoryScores = territoryScores.map((territory) => {
       // const targetTerritory = territoryScores.find((t) => t.name === name);
@@ -65,8 +64,6 @@ const Territory = ({
     }
 
     setTerritoryScores(newTerritoryScores);
-
-    // setIsDragging(false);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -75,11 +72,6 @@ const Territory = ({
 
   const handleDragStart = (e: React.DragEvent, name: string) => {
     e.dataTransfer.setData("text/plain", name);
-
-    // setFrom({ x: e.clientX, y: e.clientY });
-
-    // set x and y to the center of the sprite
-    // setFrom({ x: e.clientX, y: e.clientY });
 
     const center = calculateCenter(e);
     setFrom(center);
@@ -92,13 +84,7 @@ const Territory = ({
   const ondragHandler = (e: React.DragEvent) => {
     setIsDragging(true);
 
-    // console.log("dragging", e.clientX, e.clientY);
-    // const center = calculateCenter(e);
-    // setTo(center);
-
     setTo({ x: e.clientX, y: e.clientY });
-
-    // set x and y to the center of the sprite
   };
 
   const calculateCenter = (e: React.DragEvent) => {
@@ -108,7 +94,6 @@ const Territory = ({
     const x = rect.x + rect.width / 2;
     const y = rect.y + rect.height / 2;
 
-    console.log({ x, y });
     return {
       x,
       y,
