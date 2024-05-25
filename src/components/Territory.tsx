@@ -76,7 +76,13 @@ const Territory = ({
   const handleDragStart = (e: React.DragEvent, name: string) => {
     e.dataTransfer.setData("text/plain", name);
 
-    setFrom({ x: e.clientX, y: e.clientY });
+    // setFrom({ x: e.clientX, y: e.clientY });
+
+    // set x and y to the center of the sprite
+    // setFrom({ x: e.clientX, y: e.clientY });
+
+    const center = calculateCenter(e);
+    setFrom(center);
   };
 
   const handleDragEnd = () => {
@@ -84,9 +90,29 @@ const Territory = ({
   };
 
   const ondragHandler = (e: React.DragEvent) => {
-    // console.log("dragging", e.clientX, e.clientY);
     setIsDragging(true);
+
+    // console.log("dragging", e.clientX, e.clientY);
+    // const center = calculateCenter(e);
+    // setTo(center);
+
     setTo({ x: e.clientX, y: e.clientY });
+
+    // set x and y to the center of the sprite
+  };
+
+  const calculateCenter = (e: React.DragEvent) => {
+    const sprite = e.target as HTMLDivElement;
+    const rect = sprite.getBoundingClientRect();
+
+    const x = rect.x + rect.width / 2;
+    const y = rect.y + rect.height / 2;
+
+    console.log({ x, y });
+    return {
+      x,
+      y,
+    };
   };
 
   return (

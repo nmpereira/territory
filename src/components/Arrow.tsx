@@ -7,7 +7,7 @@ const Arrow = ({
   to: { x: number; y: number };
   isDragging: boolean;
 }) => {
-  console.log(isDragging, from, to);
+  //   console.log(isDragging, from, to);
   return (
     isDragging && (
       <svg
@@ -40,7 +40,7 @@ const Arrow = ({
           y2={to.y}
           style={{
             stroke: "#f00",
-            strokeWidth: 2,
+            strokeWidth: 3,
             markerEnd: "url(#arrow)",
           }}
         />
